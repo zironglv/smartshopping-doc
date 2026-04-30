@@ -1,7 +1,7 @@
 ---
 name: smartshopping
 description: C端购物助手，支持商品搜索、比价、推荐。当用户说"找xxx"、"买个xxx"、"最便宜的xxx"、"推荐xxx元礼物"时触发。
-version: 1.2.0
+version: 1.2.1
 ---
 
 # C端购物助手 Skill
@@ -22,6 +22,25 @@ OPEN_API_APP_KEY: hub_open_ue2z113fbxmutvl3
 ```
 
 直接使用，不去环境变量查找。
+
+## 核心原则
+
+- 优先返回 `in_stock` 且 `dataFreshness = fresh` 的报价
+- 用户强调省钱时，优先 `price_asc` 排序
+- 同价格条件下，优先有可用推广链接的 offer
+- 面向用户输出时，保证每个商品都带有可点击链接
+- 只要接口返回了可跳转商品链接，必须把链接返回给用户
+
+---
+
+## 推荐调用顺序
+
+1. 搜索商品：`POST /open/products/search`
+2. 查看商品详情：`GET /open/products/{productId}`
+3. 用户指定规格时筛选 SKU：`POST /open/products/{productId}/skus/filter`
+4. 查看目标 SKU 的可用报价：`GET /open/skus/{skuId}/offers`
+5. 获取推广链接：`GET /open/offers/{offerId}/affiliate-link`
+6. 用户点击后上报行为：`POST /open/click-events`
 
 ---
 
@@ -45,16 +64,16 @@ OPEN_API_APP_KEY: hub_open_ue2z113fbxmutvl3
 ### 1.2 搜索请求
 
 ```bash
-curl -s -X POST "https://jiesuoai.com/open/products/search" \
-  -H "x-app-key: hub_open_ue2z113fbxmutvl3" \
+curl -s -X POST "$HUB_BASE_URL/open/products/search" \
+  -H "x-app-key: $OPEN_API_APP_KEY" \
   -H "content-type: application/json" \
   -d '{
-    "keyword": "<关键词>",
-    "priceMin": <最低价,可选>,
-    "priceMax": <最高价,可选>,
-    "sortBy": "<排序,可选>",
+    "keyword": "蓝牙耳机",
+    "priceMin": 100,
+    "priceMax": 500,
     "page": 1,
-    "pageSize": 10
+    "pageSize": 20,
+    "sortBy": "price_asc"
   }'
 ```
 
@@ -63,34 +82,6 @@ curl -s -X POST "https://jiesuoai.com/open/products/search" \
 - `price_desc` - 价格降序
 - 无排序时默认返回综合排序
 
-### 1.3 搜索结果结构
-
-```json
-{
-  "page": 1,
-  "pageSize": 10,
-  "items": [
-    {
-      "id": "cmocqi4og00aw54h2v8ypa43r",
-      "title": "原神联名无线蓝牙耳机...",
-      "imageUrl": "https://img.alicdn.com/...",
-      "category": "动漫3C周边/数码电器",
-      "skuCount": 1,
-      "bestOffer": {
-        "channel": "taobao",
-        "price": 89.8,
-        "couponPrice": 89.8,
-        "couponAmount": 0,
-        "shopName": "小红帽动漫馆",
-        "availability": "in_stock",
-        "deliveryRegion": "浙江 金华",
-        "promotionUrl": "https://jiesuoai.com/open/promo/xxx"
-      }
-    }
-  ]
-}
-```
-
 ---
 
 ## 场景二：商品详情
@@ -98,11 +89,11 @@ curl -s -X POST "https://jiesuoai.com/open/products/search" \
 ### 2.1 获取商品详情
 
 ```bash
-curl -s "https://jiesuoai.com/open/products/{productId}" \
-  -H "x-app-key: hub_open_ue2z113fbxmutvl3"
+curl -s "$HUB_BASE_URL/open/products/{productId}" \
+  -H "x-app-key: $OPEN_API_APP_KEY"
 ```
 
-### 2.2 返回字段（含新增字段，变量名与淘宝客原文档一致）
+### 2.2 返回字段（变量名与淘宝客原文档一致）
 
 参考文档：`taobao.tbk.item.info.get` (https://open.taobao.com/api.htm?docId=24518&docType=2&scopeId=16189)
 
@@ -136,6 +127,86 @@ curl -s "https://jiesuoai.com/open/products/{productId}" \
 | `kuadian_promotion_info` | String | 跨店满减信息 | ✅ 促销信息 |
 | `presale_deposit` | Float | 预售定金 | ⚠️ 预售商品展示 |
 | `presale_discount_fee_text` | String | 预售优惠信息 | ⚠️ 预售商品展示 |
+
+---
+
+## 场景三：SKU 筛选
+
+用户指定商品规格时使用。
+
+```bash
+curl -s -X POST "$HUB_BASE_URL/open/products/{productId}/skus/filter" \
+  -H "x-app-key: $OPEN_API_APP_KEY" \
+  -H "content-type: application/json" \
+  -d '{
+    "specKey": "color",
+    "specValue": "black",
+    "onlyInStock": true
+  }'
+```
+
+**参数说明**：
+- `specKey` - 规格键（如 color、size）
+- `specValue` - 规格值（如 black、XL）
+- `onlyInStock` - 是否只返回有库存的SKU
+
+---
+
+## 场景四：获取推广链接
+
+用户要购买时，获取可跳转的推广链接。
+
+```bash
+curl -s "$HUB_BASE_URL/open/offers/{offerId}/affiliate-link" \
+  -H "x-app-key: $OPEN_API_APP_KEY"
+```
+
+**返回字段**：
+- `promotionUrl` - 推广链接（优先使用）
+- `affiliateLink` - 联盟链接
+- `deepLink` - 深度链接
+
+---
+
+## 场景五：上报点击
+
+用户点击"去购买"时，上报点击行为用于归因。
+
+```bash
+curl -s -X POST "$HUB_BASE_URL/open/click-events" \
+  -H "x-app-key: $OPEN_API_APP_KEY" \
+  -H "content-type: application/json" \
+  -d '{
+    "agentId": "smartshopping",
+    "sessionId": "sess-xxx",
+    "queryId": "q-xxx",
+    "offerId": "offer-xxx",
+    "traceId": "trace-xxx"
+  }'
+```
+
+**点击归因规则**：
+- 用户点击"去购买"时，先触发 `POST /open/click-events`，再打开链接
+- `offerId` 必须来自当前商品的真实报价，避免归因错位
+- 若上报失败，不阻塞跳转，但记录告警日志
+
+---
+
+## 链接字段优先级
+
+同一商品可能存在多个可跳转链接，按以下优先级选择：
+
+1. `promotionUrl` - 推广链接（优先）
+2. `affiliateLink` - 联盟链接
+3. `deepLink` - 深度链接
+4. `item_url` - 商品原始链接（降级）
+
+只有当四个字段都不存在时，才提示"当前商品暂无购买链接"。
+
+**URL 选择策略**：
+1. 优先使用 `GET /open/offers/{offerId}/affiliate-link` 返回的 `promotionUrl`
+2. 若推广链接暂不可用，降级到商品详情中的 `item_url`
+3. 若都没有，保留商品信息展示，但禁用"去购买"按钮
 
 ---
 
@@ -218,16 +289,23 @@ curl -s "https://jiesuoai.com/open/products/{productId}" \
 
 ### 图片处理规则
 
-- **必须使用 Markdown 格式**：`[![标题](pict_url)](推广链接)`
+- **必须使用 Markdown 格式**：`[![标题](图片URL)](推广链接)`
 - 图片点击跳转到推广链接
 - **禁止使用 HTML 标签**（`<img>`、`<a>`）
-- 图片优先级：`pict_url` > `imageUrl` > `small_images[0]`
+- 图片字段优先级：`pict_url` > `imageUrl` > `small_images[0]`
 
-### 链接处理规则
+### 缩略图 URL 规则
 
-- **优先级**：`promotionUrl` > `item_url`
-- 链接必须可点击，用 Markdown 格式 `[文字](链接)`
-- 若无链接，告知用户"暂无购买链接"
+需要小图展示时，可按以下规则转换：
+
+| 图床 | 缩略图参数 |
+|------|-----------|
+| 阿里云 OSS | 追加 `?x-oss-process=image/resize,w_160` |
+| 又拍云 | 追加 `!/fw/160` |
+| 腾讯云 COS | 追加 `?imageMogr2/thumbnail/160x` |
+| 已有尺寸后缀 | 改成更小尺寸（如 `@500w` → `@160w`） |
+
+如果无法确认缩略参数规则，保持原图 URL，不要拼接错误参数导致图片失效。
 
 ---
 
@@ -259,13 +337,25 @@ curl -s "https://jiesuoai.com/open/products/{productId}" \
 
 ---
 
-## 异常处理
+## 决策建议
+
+- 搜索结果太宽泛 → 缩小关键词或价格区间
+- SKU 筛选为空 → 回退到商品默认 SKU
+- 某个报价没有链接 → 尝试同 SKU 的下一条 offer
+- 接口返回 4xx → 先修正参数再重试
+- 接口返回 5xx → 使用指数退避重试
+
+---
+
+## 异常处理与降级策略
 
 | 异常 | 处理方式 |
 |------|---------|
 | 搜索无结果 | 提示"未找到相关商品，建议调整关键词" |
-| API 5xx 错误 | 重试一次，仍失败则提示"服务暂时不可用" |
-| 无推广链接 | 展示商品信息但提示"暂无购买链接" |
+| SKU 筛选失败 | 回退到商品默认 SKU |
+| 推广链接不可用 | 尝试同 SKU 的下一条 offer |
+| 所有链接都不可用 | 展示商品信息但提示"暂无购买链接" |
+| API 5xx 错误 | 指数退避重试，仍失败则提示"服务暂时不可用" |
 | 价格区间无效 | 自动放宽范围 |
 
 ---

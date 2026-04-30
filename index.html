@@ -17,7 +17,10 @@
             --card-bg: #f9f8f6;
             --code-bg: #f7f6f3;
             --success: #0f7b6c;
+            --success-bg: #e6f4f1;
             --warning: #d9730d;
+            --warning-bg: #fbf3db;
+            --info-bg: #e8f4fd;
         }
         
         body {
@@ -84,9 +87,10 @@
         .download-btn {
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 8px;
             margin-top: 30px;
-            padding: 10px 16px;
+            padding: 12px 16px;
             background: var(--accent);
             color: white;
             border: none;
@@ -109,40 +113,45 @@
             max-width: 900px;
         }
         
-        /* Header */
-        .header {
+        /* Version Header */
+        .version-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
             margin-bottom: 40px;
             padding-bottom: 20px;
             border-bottom: 1px solid var(--border);
         }
         
-        .header h1 {
-            font-size: 36px;
+        .version-header h1 {
+            font-size: 32px;
             font-weight: 700;
             color: var(--text);
-            margin-bottom: 8px;
         }
         
-        .header-meta {
-            display: flex;
-            gap: 16px;
-            color: var(--text-light);
+        .version-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: var(--success-bg);
+            border-radius: 8px;
+        }
+        
+        .version-badge .version {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--success);
+        }
+        
+        .version-badge .date {
             font-size: 14px;
+            color: var(--text-light);
         }
         
-        .badge {
-            display: inline-block;
-            padding: 4px 10px;
-            background: var(--success);
-            color: white;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: 500;
-        }
-        
-        /* Sections */
+        /* Section */
         .section {
-            margin-bottom: 40px;
+            margin-bottom: 48px;
         }
         
         .section h2 {
@@ -162,14 +171,6 @@
             margin-bottom: 12px;
         }
         
-        .section h4 {
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--text);
-            margin-top: 20px;
-            margin-bottom: 10px;
-        }
-        
         .section p {
             margin-bottom: 12px;
             color: var(--text);
@@ -184,21 +185,26 @@
             margin-bottom: 6px;
         }
         
-        /* Code Block */
-        pre {
-            background: var(--code-bg);
-            border: 1px solid var(--border);
+        /* Callout */
+        .callout {
+            padding: 16px 20px;
             border-radius: 6px;
-            padding: 16px;
-            overflow-x: auto;
             margin-bottom: 16px;
-            font-size: 14px;
-            line-height: 1.5;
         }
         
-        code {
-            font-family: 'SF Mono', 'Consolas', 'Monaco', monospace;
-            font-size: 14px;
+        .callout-info {
+            background: var(--info-bg);
+            border-left: 4px solid var(--accent);
+        }
+        
+        .callout-success {
+            background: var(--success-bg);
+            border-left: 4px solid var(--success);
+        }
+        
+        .callout-warning {
+            background: var(--warning-bg);
+            border-left: 4px solid var(--warning);
         }
         
         /* Table */
@@ -224,48 +230,116 @@
             background: var(--card-bg);
         }
         
-        /* Callout */
-        .callout {
-            padding: 16px;
-            border-radius: 6px;
-            margin-bottom: 16px;
-        }
-        
-        .callout-info {
-            background: #e8f4fd;
-            border-left: 4px solid var(--accent);
-        }
-        
-        .callout-warning {
-            background: #fef7ed;
-            border-left: 4px solid var(--warning);
-        }
-        
-        .callout-success {
-            background: #e6f4f1;
-            border-left: 4px solid var(--success);
-        }
-        
         /* Tags */
         .tag {
             display: inline-block;
-            padding: 2px 8px;
-            background: var(--card-bg);
-            border-radius: 4px;
+            padding: 4px 10px;
+            border-radius: 12px;
             font-size: 12px;
-            margin-right: 4px;
+            font-weight: 500;
         }
         
-        .tag-yes { background: #e6f4f1; color: #0f7b6c; }
-        .tag-no { background: #fce8e6; color: #c5221f; }
-        .tag-maybe { background: #fef7ed; color: #d9730d; }
+        .tag-new {
+            background: var(--success-bg);
+            color: var(--success);
+        }
+        
+        .tag-existing {
+            background: var(--card-bg);
+            color: var(--text-light);
+        }
+        
+        .tag-required {
+            background: #fce8e6;
+            color: #c5221f;
+        }
+        
+        /* Code Block */
+        .code-container {
+            position: relative;
+            margin-bottom: 24px;
+        }
+        
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background: var(--code-bg);
+            border: 1px solid var(--border);
+            border-radius: 6px 6px 0 0;
+        }
+        
+        .code-header span {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text);
+        }
+        
+        .copy-btn {
+            padding: 6px 12px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .copy-btn:hover {
+            background: #1a6ec9;
+        }
+        
+        pre {
+            background: var(--code-bg);
+            border: 1px solid var(--border);
+            border-top: none;
+            border-radius: 0 0 6px 6px;
+            padding: 16px;
+            overflow-x: auto;
+            max-height: 600px;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        
+        code {
+            font-family: 'SF Mono', 'Consolas', 'Monaco', monospace;
+        }
         
         /* Inline code */
-        p code, li code {
+        p code, li code, td code {
             background: var(--code-bg);
             padding: 2px 6px;
             border-radius: 4px;
             font-size: 13px;
+        }
+        
+        /* Field Badge in tables */
+        .field-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .field-badge code {
+            font-size: 13px;
+        }
+        
+        /* Download Section */
+        .download-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+            background: var(--card-bg);
+            border-radius: 8px;
+            margin-bottom: 24px;
+        }
+        
+        .download-section p {
+            margin: 0;
+            color: var(--text);
         }
         
         /* Responsive */
@@ -280,30 +354,15 @@
     <nav class="sidebar">
         <div class="sidebar-title">SmartShopping</div>
         
-        <div class="nav-section">概述</div>
-        <a href="#trigger" class="nav-item">触发场景</a>
-        <a href="#config" class="nav-item">调用配置</a>
-        <a href="#principles" class="nav-item">核心原则</a>
-        <a href="#flow" class="nav-item">调用顺序</a>
+        <div class="nav-section">版本信息</div>
+        <a href="#version" class="nav-item">版本说明</a>
         
-        <div class="nav-section">接口场景</div>
-        <a href="#search" class="nav-item">商品搜索</a>
-        <a href="#detail" class="nav-item">商品详情</a>
-        <a href="#sku" class="nav-item">SKU筛选</a>
-        <a href="#affiliate" class="nav-item">推广链接</a>
-        <a href="#click" class="nav-item">点击上报</a>
+        <div class="nav-section">接口变更</div>
+        <a href="#search-change" class="nav-item">搜索接口变更</a>
+        <a href="#detail-change" class="nav-item">商品详情变更</a>
         
-        <div class="nav-section">展示规则</div>
-        <a href="#fields" class="nav-item">返回字段</a>
-        <a href="#display" class="nav-item">字段展示</a>
-        <a href="#output" class="nav-item">输出规范</a>
-        <a href="#link" class="nav-item">链接优先级</a>
-        
-        <div class="nav-section">策略与异常</div>
-        <a href="#strategy" class="nav-item">推荐策略</a>
-        <a href="#decision" class="nav-item">决策建议</a>
-        <a href="#error" class="nav-item">异常处理</a>
-        <a href="#example" class="nav-item">示例对话</a>
+        <div class="nav-section">源码</div>
+        <a href="#source" class="nav-item">SKILL.md 源码</a>
         
         <a href="https://raw.githubusercontent.com/zironglv/smartshopping-doc/main/SKILL.md" class="download-btn" download>
             📥 下载 SKILL.md
@@ -312,64 +371,103 @@
     
     <!-- Main Content -->
     <main class="main">
-        <header class="header">
-            <h1>C端购物助手 Skill</h1>
-            <div class="header-meta">
-                <span class="badge">v1.2.1</span>
-                <span>支持商品搜索、比价、推荐</span>
+        <!-- Version Header -->
+        <header id="version" class="version-header">
+            <h1>SmartShopping Skill</h1>
+            <div class="version-badge">
+                <span class="version">v1.2.1</span>
+                <span class="date">2025-04-30</span>
             </div>
         </header>
         
-        <!-- 触发场景 -->
-        <section class="section" id="trigger">
-            <h2>触发场景</h2>
-            <ul>
-                <li>用户说"找xxx"、"买xxx"、"搜xxx"</li>
-                <li>用户说"最便宜/最贵的xxx"</li>
-                <li>用户说"推荐xxx元的礼物"</li>
-                <li>用户说"适合xxx人群的xxx"</li>
-                <li>用户要购物、比价、看商品</li>
-            </ul>
-        </section>
-        
-        <!-- 调用配置 -->
-        <section class="section" id="config">
-            <h2>调用配置（固定值）</h2>
+        <!-- Version Description -->
+        <section class="section">
+            <h2>版本说明</h2>
+            <p>本版本在原有 Skill 基础上，新增了用户意图解析、价格筛选参数、字段展示规则等功能，并修正字段名与淘宝客 API 原文档一致。</p>
+            
+            <div class="callout callout-success">
+                <strong>v1.2.1 更新内容：</strong>
+                <ul>
+                    <li>新增用户意图解析规则表（价格筛选、人群关键词转换）</li>
+                    <li>搜索接口新增 <code>priceMin</code>、<code>priceMax</code>、<code>sortBy</code> 参数</li>
+                    <li>商品详情接口新增 28 个返回字段（与淘宝客 API 一致）</li>
+                    <li>新增字段展示规则（✅必须 / ⚠️条件 / ❌内部）</li>
+                    <li>恢复 SKU筛选、推广链接、点击上报接口说明</li>
+                    <li>补充链接优先级和降级策略</li>
+                </ul>
+            </div>
+            
+            <h3>调用配置</h3>
             <pre><code>HUB_BASE_URL: https://jiesuoai.com
 OPEN_API_APP_KEY: hub_open_ue2z113fbxmutvl3</code></pre>
             <p>直接使用，不去环境变量查找。</p>
         </section>
         
-        <!-- 核心原则 -->
-        <section class="section" id="principles">
-            <h2>核心原则</h2>
-            <ul>
-                <li>优先返回 <code>in_stock</code> 且 <code>dataFreshness = fresh</code> 的报价</li>
-                <li>用户强调省钱时，优先 <code>price_asc</code> 排序</li>
-                <li>同价格条件下，优先有可用推广链接的 offer</li>
-                <li>面向用户输出时，保证每个商品都带有可点击链接</li>
-                <li>只要接口返回了可跳转商品链接，必须把链接返回给用户</li>
-            </ul>
-        </section>
-        
-        <!-- 调用顺序 -->
-        <section class="section" id="flow">
-            <h2>推荐调用顺序</h2>
-            <ol>
-                <li>搜索商品：<code>POST /open/products/search</code></li>
-                <li>查看商品详情：<code>GET /open/products/{productId}</code></li>
-                <li>用户指定规格时筛选 SKU：<code>POST /open/products/{productId}/skus/filter</code></li>
-                <li>查看目标 SKU 的可用报价：<code>GET /open/skus/{skuId}/offers</code></li>
-                <li>获取推广链接：<code>GET /open/offers/{offerId}/affiliate-link</code></li>
-                <li>用户点击后上报行为：<code>POST /open/click-events</code></li>
-            </ol>
-        </section>
-        
-        <!-- 场景一：商品搜索 -->
-        <section class="section" id="search">
-            <h2>场景一：商品搜索</h2>
+        <!-- 搜索接口变更 -->
+        <section class="section" id="search-change">
+            <h2>搜索接口变更</h2>
+            <p><code>POST /open/products/search</code></p>
             
-            <h3>1.1 用户意图解析</h3>
+            <h3>请求参数</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>参数</th>
+                        <th>类型</th>
+                        <th>说明</th>
+                        <th>状态</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="field-badge"><code>keyword</code></td>
+                        <td>String</td>
+                        <td>搜索关键词</td>
+                        <td><span class="tag tag-existing">原有</span></td>
+                    </tr>
+                    <tr>
+                        <td class="field-badge"><code>page</code></td>
+                        <td>Integer</td>
+                        <td>页码</td>
+                        <td><span class="tag tag-existing">原有</span></td>
+                    </tr>
+                    <tr>
+                        <td class="field-badge"><code>pageSize</code></td>
+                        <td>Integer</td>
+                        <td>每页数量</td>
+                        <td><span class="tag tag-existing">原有</span></td>
+                    </tr>
+                    <tr>
+                        <td class="field-badge"><code>priceMin</code></td>
+                        <td>Float</td>
+                        <td>最低价格筛选</td>
+                        <td><span class="tag tag-new">新增</span></td>
+                    </tr>
+                    <tr>
+                        <td class="field-badge"><code>priceMax</code></td>
+                        <td>Float</td>
+                        <td>最高价格筛选</td>
+                        <td><span class="tag tag-new">新增</span></td>
+                    </tr>
+                    <tr>
+                        <td class="field-badge"><code>sortBy</code></td>
+                        <td>String</td>
+                        <td>排序方式（price_asc / price_desc）</td>
+                        <td><span class="tag tag-new">新增</span></td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="callout callout-info">
+                <strong>sortBy 可选值：</strong>
+                <ul>
+                    <li><code>price_asc</code> - 价格升序（省钱优先）</li>
+                    <li><code>price_desc</code> - 价格降序</li>
+                    <li>无排序时默认返回综合排序</li>
+                </ul>
+            </div>
+            
+            <h3>用户意图解析规则</h3>
             <table>
                 <thead>
                     <tr><th>用户表达</th><th>转换规则</th></tr>
@@ -387,9 +485,379 @@ OPEN_API_APP_KEY: hub_open_ue2z113fbxmutvl3</code></pre>
                     <tr><td>"送给父母/长辈"</td><td>keyword追加 <code>长辈礼物 父母</code></td></tr>
                 </tbody>
             </table>
+        </section>
+        
+        <!-- 商品详情变更 -->
+        <section class="section" id="detail-change">
+            <h2>商品详情接口变更</h2>
+            <p><code>GET /open/products/{productId}</code></p>
+            <p>参考文档：<code>taobao.tbk.item.info.get</code> (<a href="https://open.taobao.com/api.htm?docId=24518&docType=2&scopeId=16189" target="_blank">链接</a>)</p>
             
-            <h3>1.2 搜索请求</h3>
-            <pre><code>curl -s -X POST "$HUB_BASE_URL/open/products/search" \
+            <h3>返回字段列表</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>字段</th>
+                        <th>类型</th>
+                        <th>说明</th>
+                        <th>展示规则</th>
+                        <th>状态</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- 原有字段 -->
+                    <tr>
+                        <td class="field-badge"><code>id</code></td>
+                        <td>String</td>
+                        <td>商品唯一ID</td>
+                        <td>❌ 内部</td>
+                        <td><span class="tag tag-existing">原有</span></td>
+                    </tr>
+                    <tr>
+                        <td class="field-badge"><code>title</code></td>
+                        <td>String</td>
+                        <td>商品标题</td>
+                        <td>✅ 展示</td>
+                        <td><span class="tag tag-existing">原有</span></td>
+                    </tr>
+                    <tr>
+                        <td class="field-badge"><code>imageUrl</code></td>
+                        <td>String</td>
+                        <td>商品主图</td>
+                        <td>✅ 图片</td>
+                        <td><span class="tag tag-existing">原有</span></td>
+                    </tr>
+                    <tr>
+                        <td class="field-badge"><code>category</code></td>
+                        <td>String</td>
+                        <td>商品类目</td>
+                        <td>⚠️ 可选</td>
+                        <td><span class="tag tag-existing">原有</span></td>
+                    </tr>
+                    <tr>
+                        <td class="field-badge"><code>skuCount</code></td>
+                        <td>Integer</td>
+                        <td>SKU数量</td>
+                        <td>❌ 内部</td>
+                        <td><span class="tag tag-existing">原有</span></td>
+                    </tr>
+                    <tr>
+                        <td class="field-badge"><code>bestOffer</code></td>
+                        <td>Object</td>
+                        <td>最优报价</td>
+                        <td>✅ 展示</td>
+                        <td><span class="tag tag-existing">原有</span></td>
+                    </tr>
+                    
+                    <!-- 新增字段 - 淘宝客API对齐 -->
+                    <tr>
+                        <td class="field-badge"><code>num_iid</code></td>
+                        <td>String</td>
+                        <td>淘宝商品ID</td>
+                        <td>❌ 内部</td>
+                        <td><span class="tag tag-new">新增</span></td>
+                    </tr>
+                    <tr>
+                        <td class="field-badge"><code>pict_url</code></td>
+                        <td>String</td>
+                        <td>商品主图（淘宝客字段）</td>
+                        <td>✅ 图片</td>
+                        <td><span class="tag tag-new">新增</span></td>
+                    </tr>
+                    <tr>
+                        <td class="field-badge"><code>small_images</code></td>
+                        <td>String[]</td>
+                        <td>商品小图列表</td>
+                        <td>✅ 细节</td>
+                        <td><span class="tag tag-new">新增</span></td>
+                    </tr>
+                    <tr>
+                        <td class="field-badge"><code>reserve_price</code></td>
+                        <td>Float</td>
+                        <td>原价（一口价）</td>
+                        <td>✅ 原价</td>
+                        <td><span class="tag tag-new">新增</span></td>
+                    </tr>
+                    <tr>
+                        <td class="field-badge"><code>zk_final_price</code></td>
+                        <td>Float</td>
+                        <td>折扣价</td>
+                        <td>✅ 优先</td>
+                        <td><span class="tag tag-new">新增</span></td>
+                    </tr>
+                    <tr>
+                        <td class="field-badge"><code>user_type</code></td>
+                        <td>Integer</td>
+                        <td>卖家类型(0集市/1商城/3特价版)</td>
+                        <td>✅ 天猫</td>
+                        <td><span class="tag tag-new">新增</span></td>
+                    </tr>
+                    <tr>
+                        <td class="field-badge"><code>provcity</code></td>
+                        <td>String</td>
+                        <td>商品所在地</td>
+                        <td>✅ 发货地</td>
+                        <td><span class="tag tag-new">新增</span></td>
+                    </tr>
+                    <tr>
+                        <td class="field-badge"><code>item_url</code></td>
+                        <td>String</td>
+                        <td>商品链接</td>
+                        <td>❌ 用推广链接</td>
+                        <td><span class="tag tag-new">新增</span></td>
+                    </tr>
+                    <tr>
+                        <td class="field-badge"><code>seller_id</code></td>
+                        <td>String</td>
+                        <td>卖家ID</td>
+                        <td>❌ 内部</td>
+                        <td><span class="tag tag-new">新增</span></td>
+                    </tr>
+                    <tr>
+                        <td class="field-badge"><code>volume</code></td>
+                        <td>Integer</td>
+                        <td>30天销量</td>
+                        <td>✅ 已售</td>
+                        <td><span class="tag tag-new">新增</span></td>
+                    </tr>
+                    <tr>
+                        <td class="field-badge"><code>nick</code></td>
+                        <td>String</td>
+                        <td>店铺名称</td>
+                        <td>✅ 店铺</td>
+                        <td><span class="tag tag-new">新增</span></td>
+                    </tr>
+                    <tr>
+                        <td class="field-badge"><code>cat_name</code></td>
+                        <td>String</td>
+                        <td>一级类目名称</td>
+                        <td>⚠️ 可选</td>
+                        <td><span class="tag tag-new">新增</span></td>
+                    </tr>
+                    <tr>
+                        <td class="field-badge"><code>cat_leaf_name</code></td>
+                        <td>String</td>
+                        <td>叶子类目名称</td>
+                        <td>❌ 不展示</td>
+                        <td><span class="tag tag-new">新增</span></td>
+                    </tr>
+                    <tr>
+                        <td class="field-badge"><code>is_prepay</code></td>
+                        <td>Boolean</td>
+                        <td>是否加入消费者保障</td>
+                        <td>⚠️ 条件</td>
+                        <td><span class="tag tag-new">新增</span></td>
+                    </tr>
+                    <tr>
+                        <td class="field-badge"><code>shop_dsr</code></td>
+                        <td>Float</td>
+                        <td>店铺DSR评分</td>
+                        <td>✅ DSR</td>
+                        <td><span class="tag tag-new">新增</span></td>
+                    </tr>
+                    <tr>
+                        <td class="field-badge"><code>ratesum</code></td>
+                        <td>Integer</td>
+                        <td>卖家等级</td>
+                        <td>⚠️ 可选</td>
+                        <td><span class="tag tag-new">新增</span></td>
+                    </tr>
+                    <tr>
+                        <td class="field-badge"><code>i_rfd_rate</code></td>
+                        <td>Boolean</td>
+                        <td>退款率低于行业均值</td>
+                        <td>⚠️ 条件</td>
+                        <td><span class="tag tag-new">新增</span></td>
+                    </tr>
+                    <tr>
+                        <td class="field-badge"><code>h_good_rate</code></td>
+                        <td>Boolean</td>
+                        <td>好评率高于行业均值</td>
+                        <td>⚠️ 条件</td>
+                        <td><span class="tag tag-new">新增</span></td>
+                    </tr>
+                    <tr>
+                        <td class="field-badge"><code>h_pay_rate30</code></td>
+                        <td>Boolean</td>
+                        <td>成交转化高于行业均值</td>
+                        <td>❌ 不展示</td>
+                        <td><span class="tag tag-new">新增</span></td>
+                    </tr>
+                    <tr>
+                        <td class="field-badge"><code>free_shipment</code></td>
+                        <td>Boolean</td>
+                        <td>是否包邮</td>
+                        <td>✅ 包邮</td>
+                        <td><span class="tag tag-new">新增</span></td>
+                    </tr>
+                    <tr>
+                        <td class="field-badge"><code>material_lib_type</code></td>
+                        <td>Integer</td>
+                        <td>商品库类型</td>
+                        <td>❌ 内部</td>
+                        <td><span class="tag tag-new">新增</span></td>
+                    </tr>
+                    <tr>
+                        <td class="field-badge"><code>superior_brand</code></td>
+                        <td>Integer</td>
+                        <td>是否品牌精选(0/1)</td>
+                        <td>✅ 品牌</td>
+                        <td><span class="tag tag-new">新增</span></td>
+                    </tr>
+                    <tr>
+                        <td class="field-badge"><code>hot_flag</code></td>
+                        <td>Integer</td>
+                        <td>是否热门商品(0/1)</td>
+                        <td>✅ 热门</td>
+                        <td><span class="tag tag-new">新增</span></td>
+                    </tr>
+                    <tr>
+                        <td class="field-badge"><code>sale_price</code></td>
+                        <td>Float</td>
+                        <td>活动价</td>
+                        <td>✅ 促销</td>
+                        <td><span class="tag tag-new">新增</span></td>
+                    </tr>
+                    <tr>
+                        <td class="field-badge"><code>kuadian_promotion_info</code></td>
+                        <td>String</td>
+                        <td>跨店满减信息</td>
+                        <td>✅ 促销</td>
+                        <td><span class="tag tag-new">新增</span></td>
+                    </tr>
+                    <tr>
+                        <td class="field-badge"><code>presale_deposit</code></td>
+                        <td>Float</td>
+                        <td>预售定金</td>
+                        <td>⚠️ 预售</td>
+                        <td><span class="tag tag-new">新增</span></td>
+                    </tr>
+                    <tr>
+                        <td class="field-badge"><code>presale_discount_fee_text</code></td>
+                        <td>String</td>
+                        <td>预售优惠信息</td>
+                        <td>⚠️ 预售</td>
+                        <td><span class="tag tag-new">新增</span></td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="callout callout-warning">
+                <strong>注意：</strong>字段名已与淘宝客原文档 (<code>taobao.tbk.item.info.get</code>) 保持一致。
+                <ul>
+                    <li>原有字段：<code>id</code>、<code>title</code>、<code>imageUrl</code>、<code>category</code>、<code>skuCount</code>、<code>bestOffer</code></li>
+                    <li>新增字段：共 28 个，用于更丰富的商品信息展示</li>
+                </ul>
+            </div>
+            
+            <h3>字段展示规则</h3>
+            <table>
+                <thead><tr><th>展示类型</th><th>字段</th></tr></thead>
+                <tbody>
+                    <tr>
+                        <td><span class="tag tag-required">必须展示</span></td>
+                        <td><code>title</code>、<code>pict_url</code>、<code>zk_final_price</code>、<code>nick</code>、<code>promotionUrl</code>、<code>volume</code>、<code>shop_dsr</code>、<code>free_shipment</code>、<code>user_type</code>、<code>provcity</code></td>
+                    </tr>
+                    <tr>
+                        <td><span class="tag tag-new">条件展示</span></td>
+                        <td><code>superior_brand</code>、<code>hot_flag</code>、<code>sale_price</code>、<code>kuadian_promotion_info</code>、<code>presale_*</code>、<code>is_prepay</code>、<code>i_rfd_rate</code>、<code>h_good_rate</code></td>
+                    </tr>
+                    <tr>
+                        <td><span class="tag tag-existing">不展示</span></td>
+                        <td><code>num_iid</code>、<code>seller_id</code>、<code>material_lib_type</code>、<code>item_url</code>、<code>h_pay_rate30</code>、<code>cat_leaf_name</code>、佣金字段</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        
+        <!-- Download Section -->
+        <section class="section">
+            <h2>下载 SKILL.md</h2>
+            <div class="download-section">
+                <p>点击右侧按钮下载当前版本 (v1.2.1) 的完整 SKILL.md 文件：</p>
+                <a href="https://raw.githubusercontent.com/zironglv/smartshopping-doc/main/SKILL.md" class="download-btn" download>
+                    📥 下载 SKILL.md (v1.2.1)
+                </a>
+            </div>
+        </section>
+        
+        <!-- Source Code -->
+        <section class="section" id="source">
+            <h2>SKILL.md 源码</h2>
+            <p>以下为当前版本的完整 SKILL.md 源码：</p>
+            
+            <div class="code-container">
+                <div class="code-header">
+                    <span>SKILL.md</span>
+                    <button class="copy-btn" onclick="copySource()">复制源码</button>
+                </div>
+                <pre id="skill-source"><code>---
+name: smartshopping
+description: C端购物助手，支持商品搜索、比价、推荐。当用户说"找xxx"、"买个xxx"、"最便宜的xxx"、"推荐xxx元礼物"时触发。
+version: 1.2.1
+---
+
+# C端购物助手 Skill
+
+## 触发场景
+
+- 用户说"找xxx"、"买xxx"、"搜xxx"
+- 用户说"最便宜/最贵的xxx"
+- 用户说"推荐xxx元的礼物"
+- 用户说"适合xxx人群的xxx"
+- 用户要购物、比价、看商品
+
+## 调用配置（固定值）
+
+```
+HUB_BASE_URL: https://jiesuoai.com
+OPEN_API_APP_KEY: hub_open_ue2z113fbxmutvl3
+```
+
+直接使用，不去环境变量查找。
+
+## 核心原则
+
+- 优先返回 `in_stock` 且 `dataFreshness = fresh` 的报价
+- 用户强调省钱时，优先 `price_asc` 排序
+- 同价格条件下，优先有可用推广链接的 offer
+- 面向用户输出时，保证每个商品都带有可点击链接
+- 只要接口返回了可跳转商品链接，必须把链接返回给用户
+
+---
+
+## 推荐调用顺序
+
+1. 搜索商品：`POST /open/products/search`
+2. 查看商品详情：`GET /open/products/{productId}`
+3. 用户指定规格时筛选 SKU：`POST /open/products/{productId}/skus/filter`
+4. 查看目标 SKU 的可用报价：`GET /open/skus/{skuId}/offers`
+5. 获取推广链接：`GET /open/offers/{offerId}/affiliate-link`
+6. 用户点击后上报行为：`POST /open/click-events`
+
+---
+
+## 场景一：商品搜索
+
+### 1.1 用户意图解析
+
+| 用户表达 | 转换规则 |
+|---------|---------|
+| "最便宜的xxx" | `sortBy: "price_asc"` |
+| "最贵的xxx" | `sortBy: "price_desc"` |
+| "xxx元左右" | `priceMin: N-20%, priceMax: N+20%` |
+| "不超过xxx元" | `priceMax: xxx` |
+| "xxx元以上" | `priceMin: xxx` |
+| "适合小女孩" | keyword追加 `儿童 女童` |
+| "适合小男孩" | keyword追加 `儿童 男童` |
+| "给老婆/女朋友" | keyword追加 `女性礼物 女士` |
+| "给老公/男朋友" | keyword追加 `男性礼物 男士` |
+| "送给父母/长辈" | keyword追加 `长辈礼物 父母` |
+
+### 1.2 搜索请求
+
+```bash
+curl -s -X POST "$HUB_BASE_URL/open/products/search" \
   -H "x-app-key: $OPEN_API_APP_KEY" \
   -H "content-type: application/json" \
   -d '{
@@ -399,91 +867,106 @@ OPEN_API_APP_KEY: hub_open_ue2z113fbxmutvl3</code></pre>
     "page": 1,
     "pageSize": 20,
     "sortBy": "price_asc"
-  }'</code></pre>
-            
-            <p><strong>sortBy 可选值：</strong></p>
-            <ul>
-                <li><code>price_asc</code> - 价格升序（省钱优先）</li>
-                <li><code>price_desc</code> - 价格降序</li>
-                <li>无排序时默认返回综合排序</li>
-            </ul>
-        </section>
-        
-        <!-- 场景二：商品详情 -->
-        <section class="section" id="detail">
-            <h2>场景二：商品详情</h2>
-            
-            <h3>2.1 获取商品详情</h3>
-            <pre><code>curl -s "$HUB_BASE_URL/open/products/{productId}" \
-  -H "x-app-key: $OPEN_API_APP_KEY"</code></pre>
-            
-            <h3>2.2 返回字段（变量名与淘宝客原文档一致）</h3>
-            <p>参考文档：<code>taobao.tbk.item.info.get</code> (<a href="https://open.taobao.com/api.htm?docId=24518&docType=2&scopeId=16189" target="_blank">链接</a>)</p>
-            
-            <table>
-                <thead>
-                    <tr><th>字段</th><th>类型</th><th>说明</th><th>展示规则</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td><code>num_iid</code></td><td>String</td><td>商品ID</td><td><span class="tag tag-no">❌ 内部</span></td></tr>
-                    <tr><td><code>title</code></td><td>String</td><td>商品标题</td><td><span class="tag tag-yes">✅ 展示</span></td></tr>
-                    <tr><td><code>pict_url</code></td><td>String</td><td>商品主图</td><td><span class="tag tag-yes">✅ 图片</span></td></tr>
-                    <tr><td><code>small_images</code></td><td>String[]</td><td>商品小图列表</td><td><span class="tag tag-yes">✅ 细节</span></td></tr>
-                    <tr><td><code>reserve_price</code></td><td>Float</td><td>原价</td><td><span class="tag tag-yes">✅ 原价</span></td></tr>
-                    <tr><td><code>zk_final_price</code></td><td>Float</td><td>折扣价</td><td><span class="tag tag-yes">✅ 优先</span></td></tr>
-                    <tr><td><code>user_type</code></td><td>Integer</td><td>卖家类型(0集市/1商城/3特价版)</td><td><span class="tag tag-yes">✅ 天猫</span></td></tr>
-                    <tr><td><code>provcity</code></td><td>String</td><td>商品所在地</td><td><span class="tag tag-yes">✅ 发货地</span></td></tr>
-                    <tr><td><code>volume</code></td><td>Integer</td><td>30天销量</td><td><span class="tag tag-yes">✅ 已售</span></td></tr>
-                    <tr><td><code>nick</code></td><td>String</td><td>店铺名称</td><td><span class="tag tag-yes">✅ 店铺</span></td></tr>
-                    <tr><td><code>shop_dsr</code></td><td>Float</td><td>店铺DSR评分</td><td><span class="tag tag-yes">✅ DSR</span></td></tr>
-                    <tr><td><code>free_shipment</code></td><td>Boolean</td><td>是否包邮</td><td><span class="tag tag-yes">✅ 包邮</span></td></tr>
-                    <tr><td><code>superior_brand</code></td><td>Integer</td><td>是否品牌精选(0/1)</td><td><span class="tag tag-maybe">⚠️ 条件</span></td></tr>
-                    <tr><td><code>hot_flag</code></td><td>Integer</td><td>是否热门商品(0/1)</td><td><span class="tag tag-maybe">⚠️ 条件</span></td></tr>
-                    <tr><td><code>sale_price</code></td><td>Float</td><td>活动价</td><td><span class="tag tag-maybe">⚠️ 促销</span></td></tr>
-                    <tr><td><code>kuadian_promotion_info</code></td><td>String</td><td>跨店满减信息</td><td><span class="tag tag-maybe">⚠️ 促销</span></td></tr>
-                </tbody>
-            </table>
-        </section>
-        
-        <!-- 场景三：SKU筛选 -->
-        <section class="section" id="sku">
-            <h2>场景三：SKU 筛选</h2>
-            <p>用户指定商品规格时使用。</p>
-            <pre><code>curl -s -X POST "$HUB_BASE_URL/open/products/{productId}/skus/filter" \
+  }'
+```
+
+**sortBy 可选值**：
+- `price_asc` - 价格升序（省钱优先）
+- `price_desc` - 价格降序
+- 无排序时默认返回综合排序
+
+---
+
+## 场景二：商品详情
+
+### 2.1 获取商品详情
+
+```bash
+curl -s "$HUB_BASE_URL/open/products/{productId}" \
+  -H "x-app-key: $OPEN_API_APP_KEY"
+```
+
+### 2.2 返回字段（变量名与淘宝客原文档一致）
+
+参考文档：`taobao.tbk.item.info.get` (https://open.taobao.com/api.htm?docId=24518&docType=2&scopeId=16189)
+
+| 字段 | 类型 | 说明 | 展示规则 |
+|------|------|------|---------|
+| `num_iid` | String | 商品ID | ❌ 内部使用 |
+| `title` | String | 商品标题 | ✅ 展示 |
+| `pict_url` | String | 商品主图 | ✅ 图片展示 |
+| `small_images` | String[] | 商品小图列表 | ✅ 展示更多细节 |
+| `reserve_price` | Float | 商品一口价格（原价） | ✅ 原价展示 |
+| `zk_final_price` | Float | 折扣价 | ✅ 折后价优先展示 |
+| `user_type` | Integer | 卖家类型（0集市/1商城/3特价版） | ✅ 天猫标识 |
+| `provcity` | String | 商品所在地 | ✅ 发货地 |
+| `item_url` | String | 商品链接 | ❌ 用推广链接替代 |
+| `seller_id` | String | 卖家ID | ❌ 内部使用 |
+| `volume` | Integer | 30天销量 | ✅ "已售xxx件" |
+| `nick` | String | 店铺名称 | ✅ 店铺展示 |
+| `cat_name` | String | 一级类目名称 | ⚠️ 可选 |
+| `cat_leaf_name` | String | 叶子类目名称 | ❌ 不展示 |
+| `is_prepay` | Boolean | 是否加入消费者保障 | ⚠️ 可选标识 |
+| `shop_dsr` | Float | 店铺DSR评分 | ✅ "DSR 4.8分" |
+| `ratesum` | Integer | 卖家等级 | ⚠️ 可选 |
+| `i_rfd_rate` | Boolean | 退款率低于行业均值 | ⚠️ 可选标识 |
+| `h_good_rate` | Boolean | 好评率高于行业均值 | ⚠️ 可选标识 |
+| `h_pay_rate30` | Boolean | 成交转化高于行业均值 | ❌ 不展示 |
+| `free_shipment` | Boolean | 是否包邮 | ✅ "包邮"标识 |
+| `material_lib_type` | Integer | 商品库类型 | ❌ 内部使用 |
+| `superior_brand` | Integer | 是否品牌精选（0否/1是） | ✅ 品牌标识 |
+| `hot_flag` | Integer | 是否热门商品（0否/1是） | ✅ "热门"标识 |
+| `sale_price` | Float | 活动价 | ✅ 促销价展示 |
+| `kuadian_promotion_info` | String | 跨店满减信息 | ✅ 促销信息 |
+| `presale_deposit` | Float | 预售定金 | ⚠️ 预售商品展示 |
+| `presale_discount_fee_text` | String | 预售优惠信息 | ⚠️ 预售商品展示 |
+
+---
+
+## 场景三：SKU 筛选
+
+用户指定商品规格时使用。
+
+```bash
+curl -s -X POST "$HUB_BASE_URL/open/products/{productId}/skus/filter" \
   -H "x-app-key: $OPEN_API_APP_KEY" \
   -H "content-type: application/json" \
   -d '{
     "specKey": "color",
     "specValue": "black",
     "onlyInStock": true
-  }'</code></pre>
-            <p><strong>参数说明：</strong></p>
-            <ul>
-                <li><code>specKey</code> - 规格键（如 color、size）</li>
-                <li><code>specValue</code> - 规格值（如 black、XL）</li>
-                <li><code>onlyInStock</code> - 是否只返回有库存的SKU</li>
-            </ul>
-        </section>
-        
-        <!-- 场景四：推广链接 -->
-        <section class="section" id="affiliate">
-            <h2>场景四：获取推广链接</h2>
-            <p>用户要购买时，获取可跳转的推广链接。</p>
-            <pre><code>curl -s "$HUB_BASE_URL/open/offers/{offerId}/affiliate-link" \
-  -H "x-app-key: $OPEN_API_APP_KEY"</code></pre>
-            <p><strong>返回字段：</strong></p>
-            <ul>
-                <li><code>promotionUrl</code> - 推广链接（优先使用）</li>
-                <li><code>affiliateLink</code> - 联盟链接</li>
-                <li><code>deepLink</code> - 深度链接</li>
-            </ul>
-        </section>
-        
-        <!-- 场景五：点击上报 -->
-        <section class="section" id="click">
-            <h2>场景五：上报点击</h2>
-            <p>用户点击"去购买"时，上报点击行为用于归因。</p>
-            <pre><code>curl -s -X POST "$HUB_BASE_URL/open/click-events" \
+  }'
+```
+
+**参数说明**：
+- `specKey` - 规格键（如 color、size）
+- `specValue` - 规格值（如 black、XL）
+- `onlyInStock` - 是否只返回有库存的SKU
+
+---
+
+## 场景四：获取推广链接
+
+用户要购买时，获取可跳转的推广链接。
+
+```bash
+curl -s "$HUB_BASE_URL/open/offers/{offerId}/affiliate-link" \
+  -H "x-app-key: $OPEN_API_APP_KEY"
+```
+
+**返回字段**：
+- `promotionUrl` - 推广链接（优先使用）
+- `affiliateLink` - 联盟链接
+- `deepLink` - 深度链接
+
+---
+
+## 场景五：上报点击
+
+用户点击"去购买"时，上报点击行为用于归因。
+
+```bash
+curl -s -X POST "$HUB_BASE_URL/open/click-events" \
   -H "x-app-key: $OPEN_API_APP_KEY" \
   -H "content-type: application/json" \
   -d '{
@@ -492,84 +975,82 @@ OPEN_API_APP_KEY: hub_open_ue2z113fbxmutvl3</code></pre>
     "queryId": "q-xxx",
     "offerId": "offer-xxx",
     "traceId": "trace-xxx"
-  }'</code></pre>
-            <p><strong>点击归因规则：</strong></p>
-            <ul>
-                <li>用户点击"去购买"时，先触发 <code>POST /open/click-events</code>，再打开链接</li>
-                <li><code>offerId</code> 必须来自当前商品的真实报价，避免归因错位</li>
-                <li>若上报失败，不阻塞跳转，但记录告警日志</li>
-            </ul>
-        </section>
-        
-        <!-- 链接优先级 -->
-        <section class="section" id="link">
-            <h2>链接字段优先级</h2>
-            <p>同一商品可能存在多个可跳转链接，按以下优先级选择：</p>
-            <ol>
-                <li><code>promotionUrl</code> - 推广链接（优先）</li>
-                <li><code>affiliateLink</code> - 联盟链接</li>
-                <li><code>deepLink</code> - 深度链接</li>
-                <li><code>item_url</code> - 商品原始链接（降级）</li>
-            </ol>
-            <div class="callout callout-warning">
-                <strong>URL 选择策略：</strong>
-                <ol>
-                    <li>优先使用推广接口返回的 <code>promotionUrl</code></li>
-                    <li>若推广链接暂不可用，降级到商品详情中的 <code>item_url</code></li>
-                    <li>若都没有，保留商品信息展示，但禁用"去购买"按钮</li>
-                </ol>
-            </div>
-        </section>
-        
-        <!-- 字段展示规则 -->
-        <section class="section" id="display">
-            <h2>字段展示规则</h2>
-            
-            <h3>✅ 必须展示给用户</h3>
-            <table>
-                <thead><tr><th>字段</th><th>展示方式</th></tr></thead>
-                <tbody>
-                    <tr><td><code>title</code></td><td>商品标题</td></tr>
-                    <tr><td><code>pict_url</code></td><td>Markdown可点击图片</td></tr>
-                    <tr><td><code>zk_final_price</code> / <code>reserve_price</code></td><td>价格（折后价优先）</td></tr>
-                    <tr><td><code>nick</code></td><td>店铺名称</td></tr>
-                    <tr><td><code>promotionUrl</code></td><td>购买链接（必须可点击）</td></tr>
-                    <tr><td><code>volume</code></td><td>30天销量（"已售xxx件"）</td></tr>
-                    <tr><td><code>shop_dsr</code></td><td>店铺评分（"DSR 4.8分"）</td></tr>
-                    <tr><td><code>free_shipment</code></td><td>包邮标识</td></tr>
-                    <tr><td><code>user_type</code></td><td>天猫标识（user_type=1时显示"天猫"）</td></tr>
-                    <tr><td><code>provcity</code></td><td>发货地</td></tr>
-                </tbody>
-            </table>
-            
-            <h3>⚠️ 条件展示</h3>
-            <table>
-                <thead><tr><th>字段</th><th>条件</th></tr></thead>
-                <tbody>
-                    <tr><td><code>superior_brand</code></td><td>=1时显示"品牌精选"</td></tr>
-                    <tr><td><code>hot_flag</code></td><td>=1时显示"热门"</td></tr>
-                    <tr><td><code>sale_price</code></td><td>有活动价时显示促销价</td></tr>
-                    <tr><td><code>kuadian_promotion_info</code></td><td>有跨店满减时显示</td></tr>
-                    <tr><td><code>presale_*</code></td><td>预售商品时显示预售信息</td></tr>
-                </tbody>
-            </table>
-            
-            <h3>❌ 不展示给用户（内部字段）</h3>
-            <ul>
-                <li><code>num_iid</code>、<code>seller_id</code>、<code>material_lib_type</code> 等内部ID</li>
-                <li><code>item_url</code>（用推广链接替代）</li>
-                <li><code>h_pay_rate30</code> 等技术指标</li>
-                <li><strong>佣金字段（C端不透出）</strong>：<code>commissionRate</code>、<code>commissionAmountEst</code></li>
-            </ul>
-        </section>
-        
-        <!-- 输出规范 -->
-        <section class="section" id="output">
-            <h2>输出规范</h2>
-            
-            <h3>Markdown 输出模板</h3>
-            <h4>搜索结果（多商品）</h4>
-            <pre><code>为您找到以下商品：
+  }'
+```
+
+**点击归因规则**：
+- 用户点击"去购买"时，先触发 `POST /open/click-events`，再打开链接
+- `offerId` 必须来自当前商品的真实报价，避免归因错位
+- 若上报失败，不阻塞跳转，但记录告警日志
+
+---
+
+## 链接字段优先级
+
+同一商品可能存在多个可跳转链接，按以下优先级选择：
+
+1. `promotionUrl` - 推广链接（优先）
+2. `affiliateLink` - 联盟链接
+3. `deepLink` - 深度链接
+4. `item_url` - 商品原始链接（降级）
+
+只有当四个字段都不存在时，才提示"当前商品暂无购买链接"。
+
+**URL 选择策略**：
+1. 优先使用 `GET /open/offers/{offerId}/affiliate-link` 返回的 `promotionUrl`
+2. 若推广链接暂不可用，降级到商品详情中的 `item_url`
+3. 若都没有，保留商品信息展示，但禁用"去购买"按钮
+
+---
+
+## 字段展示规则
+
+### ✅ 必须展示给用户
+
+| 字段 | 展示方式 |
+|------|---------|
+| `title` | 商品标题 |
+| `pict_url` | Markdown可点击图片 `[![标题](图片)](链接)` |
+| `zk_final_price` / `reserve_price` | 价格展示（折后价优先） |
+| `nick` | 店铺名称 |
+| `promotionUrl` | 购买链接（必须可点击） |
+| `volume` | 30天销量（"已售xxx件"） |
+| `shop_dsr` | 店铺评分（"DSR 4.8分"） |
+| `free_shipment` | 包邮标识 |
+| `user_type` | 天猫标识（user_type=1时显示"天猫"） |
+| `provcity` | 发货地 |
+
+### ⚠️ 条件展示
+
+| 字段 | 条件 |
+|------|------|
+| `superior_brand` | =1时显示"品牌精选" |
+| `hot_flag` | =1时显示"热门" |
+| `sale_price` | 有活动价时显示促销价 |
+| `kuadian_promotion_info` | 有跨店满减时显示 |
+| `presale_*` | 预售商品时显示预售信息 |
+| `is_prepay` | 有消费者保障时显示标识 |
+| `i_rfd_rate` | 退款率低于行业时显示标识 |
+| `h_good_rate` | 好评率高于行业时显示标识 |
+
+### ❌ 不展示给用户（内部字段）
+
+- `num_iid`、`seller_id`、`material_lib_type` 等内部ID
+- `item_url`（用推广链接替代）
+- `h_pay_rate30` 等技术指标
+- `cat_leaf_name` 等精细类目
+- **佣金字段（C端不透出）**：`commissionRate`、`commissionAmountEst`
+
+---
+
+## 输出规范
+
+### Markdown 输出模板
+
+**搜索结果（多商品）**：
+
+```markdown
+为您找到以下商品：
 
 **1. [商品标题](推广链接)**
 [![商品图片](pict_url)](推广链接)
@@ -577,98 +1058,113 @@ OPEN_API_APP_KEY: hub_open_ue2z113fbxmutvl3</code></pre>
 - 🏪 店铺：小红帽动漫馆（天猫）| DSR 4.8
 - 📦 发货：浙江金华 | 包邮
 - 🔥 已售：1234件
-- [立即购买](推广链接)</code></pre>
-            
-            <h4>图片处理规则</h4>
-            <ul>
-                <li><strong>必须使用 Markdown 格式</strong>：<code>[![标题](图片URL)](推广链接)</code></li>
-                <li>图片点击跳转到推广链接</li>
-                <li><strong>禁止使用 HTML 标签</strong>（<code>&lt;img&gt;</code>、<code>&lt;a&gt;</code>）</li>
-                <li>图片字段优先级：<code>pict_url</code> > <code>imageUrl</code> > <code>small_images[0]</code></li>
-            </ul>
-            
-            <h4>缩略图 URL 规则</h4>
-            <table>
-                <thead><tr><th>图床</th><th>缩略图参数</th></tr></thead>
-                <tbody>
-                    <tr><td>阿里云 OSS</td><td>追加 <code>?x-oss-process=image/resize,w_160</code></td></tr>
-                    <tr><td>又拍云</td><td>追加 <code>!/fw/160</code></td></tr>
-                    <tr><td>腾讯云 COS</td><td>追加 <code>?imageMogr2/thumbnail/160x</code></td></tr>
-                    <tr><td>已有尺寸后缀</td><td>改成更小尺寸（如 <code>@500w</code> → <code>@160w</code>）</td></tr>
-                </tbody>
-            </table>
-        </section>
-        
-        <!-- 推荐策略 -->
-        <section class="section" id="strategy">
-            <h2>推荐策略</h2>
-            
-            <h3>用户说"最便宜的xxx"</h3>
-            <ol>
-                <li><code>sortBy: "price_asc"</code></li>
-                <li>取前3-5个结果</li>
-                <li>强调价格最低的特点</li>
-            </ol>
-            
-            <h3>用户说"适合xxx人群"</h3>
-            <ol>
-                <li>keyword 转换追加人群关键词</li>
-                <li>无明确排序，按默认返回</li>
-                <li>AI生成推荐理由</li>
-            </ol>
-            
-            <h3>用户说"xxx元的礼物"</h3>
-            <ol>
-                <li>设置价格区间 <code>priceMin/priceMax</code></li>
-                <li>keyword 追加礼物关键词</li>
-                <li>AI生成推荐理由</li>
-            </ol>
-        </section>
-        
-        <!-- 决策建议 -->
-        <section class="section" id="decision">
-            <h2>决策建议</h2>
-            <ul>
-                <li>搜索结果太宽泛 → 缩小关键词或价格区间</li>
-                <li>SKU 筛选为空 → 回退到商品默认 SKU</li>
-                <li>某个报价没有链接 → 尝试同 SKU 的下一条 offer</li>
-                <li>接口返回 4xx → 先修正参数再重试</li>
-                <li>接口返回 5xx → 使用指数退避重试</li>
-            </ul>
-        </section>
-        
-        <!-- 异常处理 -->
-        <section class="section" id="error">
-            <h2>异常处理与降级策略</h2>
-            <table>
-                <thead><tr><th>异常</th><th>处理方式</th></tr></thead>
-                <tbody>
-                    <tr><td>搜索无结果</td><td>提示"未找到相关商品，建议调整关键词"</td></tr>
-                    <tr><td>SKU 筛选失败</td><td>回退到商品默认 SKU</td></tr>
-                    <tr><td>推广链接不可用</td><td>尝试同 SKU 的下一条 offer</td></tr>
-                    <tr><td>所有链接都不可用</td><td>展示商品信息但提示"暂无购买链接"</td></tr>
-                    <tr><td>API 5xx 错误</td><td>指数退避重试，仍失败则提示"服务暂时不可用"</td></tr>
-                    <tr><td>价格区间无效</td><td>自动放宽范围</td></tr>
-                </tbody>
-            </table>
-        </section>
-        
-        <!-- 示例对话 -->
-        <section class="section" id="example">
-            <h2>示例对话</h2>
-            
-            <h3>示例1：找最便宜的商品</h3>
-            <div class="callout callout-info">
-                <strong>用户：</strong>找最便宜的蓝牙耳机
-            </div>
-            <p><strong>处理：</strong></p>
-            <ul>
-                <li>keyword: "蓝牙耳机"</li>
-                <li>sortBy: "price_asc"</li>
-                <li>pageSize: 5</li>
-            </ul>
-            <p><strong>输出：</strong></p>
-            <pre><code>为您找到最便宜的蓝牙耳机：
+- [立即购买](推广链接)
+
+**2. [商品标题B](推广链接B)**
+...
+```
+
+**商品详情（单商品）**：
+
+```markdown
+**商品详情**
+
+[![商品图片](pict_url)](推广链接)
+
+**标题**：商品标题
+**价格**：¥89.8（原价¥99，折后¥89.8）
+**店铺**：小红帽动漫馆（天猫）| DSR 4.8分
+**发货**：浙江金华 | 包邮
+**销量**：已售1234件
+
+[立即购买](推广链接)
+```
+
+### 图片处理规则
+
+- **必须使用 Markdown 格式**：`[![标题](图片URL)](推广链接)`
+- 图片点击跳转到推广链接
+- **禁止使用 HTML 标签**（`<img>`、`<a>`）
+- 图片字段优先级：`pict_url` > `imageUrl` > `small_images[0]`
+
+### 缩略图 URL 规则
+
+需要小图展示时，可按以下规则转换：
+
+| 图床 | 缩略图参数 |
+|------|-----------|
+| 阿里云 OSS | 追加 `?x-oss-process=image/resize,w_160` |
+| 又拍云 | 追加 `!/fw/160` |
+| 腾讯云 COS | 追加 `?imageMogr2/thumbnail/160x` |
+| 已有尺寸后缀 | 改成更小尺寸（如 `@500w` → `@160w`） |
+
+如果无法确认缩略参数规则，保持原图 URL，不要拼接错误参数导致图片失效。
+
+---
+
+## 推荐策略
+
+### 用户说"最便宜的xxx"
+
+1. `sortBy: "price_asc"`
+2. 取前3-5个结果
+3. 强调价格最低的特点
+
+### 用户说"适合xxx人群"
+
+1. keyword 转换追加人群关键词
+2. 无明确排序，按默认返回
+3. AI生成推荐理由
+
+### 用户说"xxx元的礼物"
+
+1. 设置价格区间 `priceMin/priceMax`
+2. keyword 追加礼物关键词
+3. AI生成推荐理由
+
+### 多商品推荐时
+
+- 展示3-5个商品
+- 每个商品附带推荐理由（AI根据商品特征生成）
+- 引导用户选择
+
+---
+
+## 决策建议
+
+- 搜索结果太宽泛 → 缩小关键词或价格区间
+- SKU 筛选为空 → 回退到商品默认 SKU
+- 某个报价没有链接 → 尝试同 SKU 的下一条 offer
+- 接口返回 4xx → 先修正参数再重试
+- 接口返回 5xx → 使用指数退避重试
+
+---
+
+## 异常处理与降级策略
+
+| 异常 | 处理方式 |
+|------|---------|
+| 搜索无结果 | 提示"未找到相关商品，建议调整关键词" |
+| SKU 筛选失败 | 回退到商品默认 SKU |
+| 推广链接不可用 | 尝试同 SKU 的下一条 offer |
+| 所有链接都不可用 | 展示商品信息但提示"暂无购买链接" |
+| API 5xx 错误 | 指数退避重试，仍失败则提示"服务暂时不可用" |
+| 价格区间无效 | 自动放宽范围 |
+
+---
+
+## 示例对话
+
+**用户**：找最便宜的蓝牙耳机
+
+**处理**：
+- keyword: "蓝牙耳机"
+- sortBy: "price_asc"
+- pageSize: 5
+
+**输出**：
+```markdown
+为您找到最便宜的蓝牙耳机：
 
 **1. [XX品牌蓝牙耳机](推广链接)** - ¥29.9
 [![图片](pict_url)](推广链接)
@@ -676,20 +1172,24 @@ OPEN_API_APP_KEY: hub_open_ue2z113fbxmutvl3</code></pre>
 - 📦 发货：广东深圳 | 包邮
 - 🔥 已售：5678件
 - 💡 推荐理由：入门款，适合日常使用
-- [立即购买](推广链接)</code></pre>
-            
-            <h3>示例2：推荐礼物</h3>
-            <div class="callout callout-info">
-                <strong>用户：</strong>推荐1000元给老婆的礼物
-            </div>
-            <p><strong>处理：</strong></p>
-            <ul>
-                <li>keyword: "礼物 女性 女士"</li>
-                <li>priceMin: 800, priceMax: 1200</li>
-                <li>pageSize: 5</li>
-            </ul>
-            <p><strong>输出：</strong></p>
-            <pre><code>为您推荐适合老婆的礼物（1000元左右）：
+- [立即购买](推广链接)
+
+**2. [YY蓝牙耳机](推广链接)** - ¥35.0
+...
+```
+
+---
+
+**用户**：推荐1000元给老婆的礼物
+
+**处理**：
+- keyword: "礼物 女性 女士"
+- priceMin: 800, priceMax: 1200
+- pageSize: 5
+
+**输出**：
+```markdown
+为您推荐适合老婆的礼物（1000元左右）：
 
 **1. [某品牌项链](推广链接)** - ¥899
 [![图片](pict_url)](推广链接)
@@ -697,17 +1197,37 @@ OPEN_API_APP_KEY: hub_open_ue2z113fbxmutvl3</code></pre>
 - 📦 发货：浙江杭州 | 包邮
 - 🔥 已售：234件
 - 💝 推荐理由：经典款，寓意浪漫，适合纪念日礼物
-- [立即购买](推广链接)</code></pre>
-        </section>
-        
-        <!-- 下载 -->
-        <section class="section">
-            <h2>下载 SKILL.md</h2>
-            <p>点击下方按钮下载完整的 SKILL.md 文件：</p>
-            <a href="https://raw.githubusercontent.com/zironglv/smartshopping-doc/main/SKILL.md" class="download-btn" download>
-                📥 下载 SKILL.md
-            </a>
+- [立即购买](推广链接)
+
+**2. [某品牌香水](推广链接)** - ¥1099
+...
+```
+
+---
+
+## 内部字段（禁止输出给用户）
+
+以下字段仅供内部逻辑使用：
+
+- 所有ID字段：`num_iid`、`seller_id`、`material_lib_type`
+- 编码字段：`id`、`spuId`、`skuId`、`offerId`
+- 链路字段：`linkHash`、`ingestJobId`、`traceTag`
+- **佣金字段（C端不透出）**：`commissionRate`、`commissionAmountEst`
+- 技术字段：`dataFreshness`、`freshnessScore`、`lastSyncedAt`
+- 状态字段：`availability`（用于判断，不输出）</code></pre>
+            </div>
         </section>
     </main>
+    
+    <script>
+        function copySource() {
+            const source = document.getElementById('skill-source').innerText;
+            navigator.clipboard.writeText(source).then(() => {
+                const btn = document.querySelector('.copy-btn');
+                btn.textContent = '已复制!';
+                setTimeout(() => btn.textContent = '复制源码', 2000);
+            });
+        }
+    </script>
 </body>
 </html>
